@@ -23,7 +23,7 @@ perror("Thread creation failed");
 exit(EXIT_FAILURE);
 }
 printf("Input some text. Enter ‘end’ to finish\n");
-while(strncmp("end", work_area, 3) != 0) {
+while(strncmp("end", work_area, 3) != 0) {    //when first three letters will be caught as end, then thread will join.
 fgets(work_area, WORK_SIZE, stdin);
 /*below sem_post will increment value of sem everytime user goes to new line and then calls
 thread func with inc value of sem as 1 each time*/
