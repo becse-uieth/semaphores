@@ -25,7 +25,9 @@ exit(EXIT_FAILURE);
 printf("Input some text. Enter ‘end’ to finish\n");
 while(strncmp("end", work_area, 3) != 0) {
 fgets(work_area, WORK_SIZE, stdin);
-sem_post(&bin_sem);
+/*below sem_post will increment value of sem everytime user goes to new line and then calls
+thread func with inc value of sem as 1 each time*/
+sem_post(&bin_sem);					
 }
 printf("\nWaiting for thread to finish...\n");
 res = pthread_join(a_thread, &thread_result);
@@ -37,12 +39,13 @@ printf("Thread joined\n");
 sem_destroy(&bin_sem);
 exit(EXIT_SUCCESS);
 }
+/*Thread function to count characters */
 void *thread_function(void *arg) {
-sem_wait(&bin_sem);
+sem_wait(&bin_sem);					//this dec sem value	
 while(strncmp("end", work_area, 3) != 0) {
 int s=strlen(work_area);
 printf("You input %d characters\n", s-1);
-sem_wait(&bin_sem);
+sem_wait(&bin_sem);					//this also dec sem value so that the loop will not be in infinite
 }
 pthread_exit(NULL);
 }
